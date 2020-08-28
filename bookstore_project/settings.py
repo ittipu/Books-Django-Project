@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
 
-
     # Local
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
