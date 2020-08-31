@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     # Local
     'users.apps.UsersConfig',
     'pages.apps.PagesConfig',
-    'books.apps.BooksConfig'
+    'books.apps.BooksConfig',
+    'orders.apps.OrdersConfig',
 ]
 
 MIDDLEWARE = [
@@ -167,4 +168,5 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 
-
+STRIPE_TEST_PUBLISHABLE_KEY=os.environ.get('pk_test_51HLrUwDKzHESJ69CLPcxTv5Thz2POosw5oSj5xYXYVYVd5sy6ZnAn0b0ytoYGXNAGEczYt6qNmXvfuE0mSpQAz5e00fs805vae')
+STRIPE_TEST_SECRET_KEY=os.environ.get('sk_test_51HLrUwDKzHESJ69CHrdQCPudP3b47mNRVngq23nuZj5nbeJfpOCpocshREJ2qXNywcHzL4pwNZkNJ1UMDaoHrTPP00GMbPgdKi')
