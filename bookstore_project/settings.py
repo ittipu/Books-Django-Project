@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import socket
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,6 +42,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'allauth',
     'allauth.account',
+    'debug_toolbar',
+
 
     # Local
     'users.apps.UsersConfig',
@@ -50,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -57,7 +61,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
+
+CACHE_MIDDLEWARE_ALIAS = 'default'
+CACHE_MIDDLEWARE_SECONDS = 604800
+CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
 ROOT_URLCONF = 'bookstore_project.urls'
 MEDIA_URL = '/media/'
@@ -137,7 +147,6 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-
 AUTH_USER_MODEL = 'users.CustomUser'
 
 LOGIN_REDIRECT_URL = 'home'
@@ -168,5 +177,13 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_UNIQUE_EMAIL = True
 
-STRIPE_TEST_PUBLISHABLE_KEY=os.environ.get('pk_test_51HLrUwDKzHESJ69CLPcxTv5Thz2POosw5oSj5xYXYVYVd5sy6ZnAn0b0ytoYGXNAGEczYt6qNmXvfuE0mSpQAz5e00fs805vae')
-STRIPE_TEST_SECRET_KEY=os.environ.get('sk_test_51HLrUwDKzHESJ69CHrdQCPudP3b47mNRVngq23nuZj5nbeJfpOCpocshREJ2qXNywcHzL4pwNZkNJ1UMDaoHrTPP00GMbPgdKi')
+STRIPE_TEST_PUBLISHABLE_KEY = os.environ.get(
+    'pk_test_51HLrUwDKzHESJ69CLPcxTv5Thz2POosw5oSj5xYXYVYVd5sy6ZnAn0b0ytoYGXNAGEczYt6qNmXvfuE0mSpQAz5e00fs805vae')
+STRIPE_TEST_SECRET_KEY = os.environ.get(
+    'sk_test_51HLrUwDKzHESJ69CHrdQCPudP3b47mNRVngq23nuZj5nbeJfpOCpocshREJ2qXNywcHzL4pwNZkNJ1UMDaoHrTPP00GMbPgdKi')
+
+hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
+
+
+
